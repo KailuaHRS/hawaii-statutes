@@ -67,6 +67,7 @@ function home(){
       <div class="stat"><div class="n">${STATS.chapters.toLocaleString()}</div><div class="l">Chapters</div></div>
       <div class="stat"><div class="n">${STATS.volumes}</div><div class="l">Volumes</div></div>
     </div>
+    <p class="home-dl"><a href="#/download">⬇ Download a copy to use offline</a></p>
     <p class="disclaimer"><strong>Unofficial copy for research only — not the official statutes and not legal advice.</strong>
     Generated ${STATS.crawledAt?esc(STATS.crawledAt.slice(0,10)):''} from the official source. It may contain errors or be out of date.
     Always verify against the official Hawaii Revised Statutes at
@@ -189,6 +190,31 @@ async function renderResults(reset){
 
 // ---------- about / legal / privacy ----------
 function findBySecnum(sn){ for(const id in idMeta){ if(idMeta[id].secnum===sn) return id; } return null; }
+function downloadView(){
+  highlightTreeChapter('');
+  const secs = STATS ? STATS.sections.toLocaleString() : '';
+  content.innerHTML = `<div class="legalpage">
+    <div class="crumb"><a href="#/">Home</a> &rsaquo; Download &amp; use offline</div>
+    <h1>Download &amp; use offline</h1>
+    <p>You can run this entire site on your own computer &mdash; useful for offline access, keeping an archive, or hosting your own copy. The download includes all ${secs} sections plus the full-text search.</p>
+    <p><a class="dlbtn" href="https://github.com/KailuaHRS/hawaii-statutes/archive/refs/heads/main.zip">&#11015; Download the site (.zip)</a></p>
+    <h2>Windows</h2>
+    <p>1. Unzip the downloaded file (right&#8209;click &rarr; Extract All).<br>
+       2. Open the unzipped folder and double&#8209;click <strong>Start-HRS.bat</strong>.<br>
+       3. Your browser opens the site automatically. To stop, close the small black window.</p>
+    <p class="note">The Windows launcher uses Python. If double&#8209;clicking does nothing, install the free <a href="https://www.python.org/downloads/" target="_blank" rel="noopener">Python &#8599;</a> (tick &ldquo;Add python.exe to PATH&rdquo; during setup) and try again, or use the command method below.</p>
+    <h2>Mac, Linux, or any system with Python</h2>
+    <p>1. Unzip the file.<br>
+       2. Open a Terminal, type <code>cd&nbsp;</code> then drag the unzipped folder onto the window (to fill in its path) and press Enter.<br>
+       3. Run: <code>python3 -m http.server 8777</code><br>
+       4. Open <strong>http://localhost:8777/</strong> in your browser. Press Ctrl+C in the Terminal to stop.</p>
+    <p class="note">A small local web server is needed because browsers block pages from reading local data files directly. A downloaded copy runs entirely from local files and makes no outbound requests except links you choose to click.</p>
+    <h2>Host your own copy</h2>
+    <p>These are plain static files &mdash; no build step. You can put them on any static host (GitHub Pages, Netlify, and similar). The included <strong>PUBLISHING.md</strong> has step&#8209;by&#8209;step instructions, and the <a href="https://github.com/KailuaHRS/hawaii-statutes" target="_blank" rel="noopener">source repository &#8599;</a> can be forked.</p>
+  </div>`;
+  content.parentElement.scrollTop=0;
+}
+
 function aboutView(){
   highlightTreeChapter('');
   const id23g = findBySecnum('23G-15');
@@ -200,13 +226,16 @@ function aboutView(){
     <h2>Official source &amp; legal status</h2>
     <p>The official HRS is compiled and published by the Hawaii Legislative Reference Bureau. Under ${link23g}, the matter set forth in the supplements and replacement volumes “shall be prima facie evidence of the law.” For authoritative text — and in the case of any conflict — consult the official Hawaii Revised Statutes and the Session Laws of Hawaii.</p>
     <p><a href="https://www.capitol.hawaii.gov/hrscurrent/" target="_blank" rel="noopener">Official Hawaii Revised Statutes ↗</a></p>
+    <h2>Copyright &amp; reuse</h2>
+    <p>The text of the Hawaii Revised Statutes is law. Under the United States &ldquo;government edicts&rdquo; doctrine, statutory text &mdash; and the annotations prepared by the legislature&rsquo;s revisor &mdash; are not subject to copyright. This site reproduces that public&#8209;domain text, reformatted for searching, and is offered free for non&#8209;commercial research and educational use. The content was modified for use from its original source at capitol.hawaii.gov.</p>
+    <p>This project is independent. It is not affiliated with, approved by, or endorsed by the State of Hawaii, and it does not use the State seal, coat of arms, or any official emblem or branding. The statutes here are provided &ldquo;as is,&rdquo; without warranties of any kind as to accuracy, completeness, or currency.</p>
     <h2>State of Hawaii policies</h2>
     <p>The statutory text on this site was sourced from the State of Hawaii’s website. The State’s own policies govern that official site:</p>
     <p><a href="https://www.capitol.hawaii.gov/privacy.aspx" target="_blank" rel="noopener">State of Hawaii Capitol website Privacy Policy ↗</a></p>
     <h2>Privacy statement for this site</h2>
-    <div class="box">This is a static website with no accounts, logins, cookies, analytics, trackers, or database. It does <strong>not</strong> ask for or collect any personal information from you. All searching and browsing run in your own browser — the statute text and search index are downloaded from the host and everything else happens on your device. The people who maintain this site receive no information about you and do not track visitors.</div>
-    <p>This site is hosted for free on <strong>GitHub Pages</strong> (operated by GitHub, Inc.). As with virtually any website, GitHub automatically records standard technical data from visitors — such as IP addresses — in its server logs in order to run the service and keep it secure. This site's maintainers cannot see or access that data. GitHub's handling of it is governed by the <a href="https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub Privacy Statement ↗</a>.</p>
-    <p>The only other network requests happen when you click an official-source link, which opens the State of Hawaii's website (capitol.hawaii.gov), where the State's own policies apply. If you instead run a copy of this site from your own computer, it makes no outbound requests at all apart from those official-source links you choose to click.</p>
+    <div class="box">This is a static website. It has no accounts, logins, cookies, analytics, trackers, third-party scripts, or database. It does <strong>not</strong> ask you for personal information, and the site's own code collects none. Searching and browsing run in your browser: the statute text and search index are downloaded from the host, and everything else happens on your device.</div>
+    <p>This site is hosted for free on <strong>GitHub Pages</strong> (operated by GitHub, Inc.). As with essentially any website, GitHub automatically records standard technical data from visitors — such as IP addresses — in its server logs to operate the service and maintain security. Those logs are managed by GitHub, not by this site: the maintainers add no tracking of their own and do not have access to visitors' IP addresses or server logs. GitHub's handling of this data is described in the <a href="https://docs.github.com/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub Privacy Statement ↗</a>.</p>
+    <p>The only network requests this site makes are for its own files on the host and for any links you choose to click — such as the official-source links to the State of Hawaii's website (capitol.hawaii.gov), where the State's own policies apply. If you run a downloaded copy from your own computer, even the site's files are local, and the only outbound requests are links you choose to click.</p>
     <h2>Verifying the text</h2>
     <p>Every chapter and section page links to its corresponding page on the official State site, so you can confirm the wording against the source of truth.</p>
     <p class="disclaimer">Statutes copied ${STATS&&STATS.crawledAt?esc(STATS.crawledAt.slice(0,10)):''} from capitol.hawaii.gov/hrscurrent.</p>
@@ -218,7 +247,8 @@ function aboutView(){
 function router(){
   const h=location.hash||'#/';
   const mC=h.match(/^#\/c\/(.+)$/), mS=h.match(/^#\/s\/(\d+)$/), mQ=h.match(/^#\/search\?q=(.*)$/);
-  if(h==='#/about'){ aboutView(); }
+  if(h==='#/download'){ downloadView(); }
+  else if(h==='#/about'){ aboutView(); }
   else if(mQ){ const q=decodeURIComponent(mQ[1]); if($('#q').value!==q)$('#q').value=q; runSearch(q); }
   else if(mS){ sectionView(mS[1]); }
   else if(mC){ chapterView(decodeURIComponent(mC[1])); }

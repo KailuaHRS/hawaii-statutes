@@ -22,7 +22,7 @@ You can download everything and run it on your own computer:
    - **Any system with Python:** open a terminal in the folder and run
      `python -m http.server 8777`, then visit <http://localhost:8777/>.
 
-The downloaded copy makes no outbound network requests except the official-source links
+A downloaded copy runs entirely from local files; the only outbound requests are links
 you choose to click.
 
 ## Re-host it yourself

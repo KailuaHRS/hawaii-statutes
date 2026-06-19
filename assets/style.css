@@ -102,3 +102,12 @@ mark{background:var(--hi);color:inherit;padding:0 1px;border-radius:2px}
 .legalpage p{margin:6px 0;line-height:1.6}
 .legalpage .box{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px 18px;margin:10px 0}
 .legalpage a{color:var(--accent)}
+
+/* download / offline page */
+.dlbtn{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;font-size:15px;font-weight:600;
+  padding:11px 20px;border-radius:8px;margin:6px 0 4px}
+.dlbtn:hover{background:#16517a}
+.legalpage code{background:#eef1f4;border:1px solid #e0e5ea;border-radius:4px;padding:1px 6px;font-size:13px}
+.legalpage .note{font-size:12.5px;color:var(--muted);background:#f6f8fa;border-left:3px solid var(--line);padding:8px 12px;border-radius:0 6px 6px 0}
+.home-dl a{display:inline-block;background:var(--accent2);color:#fff;text-decoration:none;font-weight:600;font-size:13.5px;padding:8px 15px;border-radius:7px;margin:4px 0 14px}
+.home-dl a:hover{filter:brightness(.94)}
