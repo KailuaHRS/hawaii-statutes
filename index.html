@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hawaii Revised Statutes — Searchable</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<header id="topbar">
+  <div class="brand" id="homeLink" title="Home">
+    <span class="brand-main">Hawaii Revised Statutes</span>
+    <span class="brand-sub">unofficial searchable copy</span>
+  </div>
+  <div class="searchwrap">
+    <input id="q" type="search" placeholder="Search the full text of the statutes…  (e.g. &quot;disorderly conduct&quot;, landlord, 291E)" autocomplete="off">
+    <select id="volFilter" title="Filter by volume"><option value="">All volumes</option></select>
+    <label class="titlesonly"><input type="checkbox" id="titlesOnly"> Titles only</label>
+  </div>
+</header>
+<div id="layout">
+  <aside id="sidebar"><div id="tree" class="tree"></div></aside>
+  <main id="main"><div id="content"><div class="loading">Loading statutes…</div></div></main>
+</div>
+<footer id="legal">
+  <span><strong>Unofficial reproduction — not the official statutes and not legal advice.</strong>
+  May contain errors or be out of date. The official version is published by the Hawaii Legislative Reference Bureau.</span>
+  <span class="legal-links">
+    <a href="https://www.capitol.hawaii.gov/hrscurrent/" target="_blank" rel="noopener">Official HRS&nbsp;↗</a>
+    <a href="https://www.capitol.hawaii.gov/privacy.aspx" target="_blank" rel="noopener">State Privacy Policy&nbsp;↗</a>
+    <a href="#/about">About &amp; Privacy</a>
+  </span>
+</footer>
+<div id="status"></div>
+<script src="assets/minisearch.min.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
