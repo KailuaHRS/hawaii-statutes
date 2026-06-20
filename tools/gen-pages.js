@@ -4,6 +4,27 @@ const DATA=path.join(ROOT,'data');
 const BASE='https://kailuahrs.github.io/hawaii-statutes/';
 const meta=JSON.parse(fs.readFileSync(path.join(DATA,'index-meta.json')));
 const acts=JSON.parse(fs.readFileSync(path.join(ROOT,'data','acts.json')));   // {year:{act:{bill,effDate,title,uponApproval,approvalDate}}}
+let har={}, harDepts={};
+try{ har=JSON.parse(fs.readFileSync(path.join(ROOT,'data','har.json'))); }catch(e){}
+try{ harDepts=JSON.parse(fs.readFileSync(path.join(ROOT,'data','har-depts.json'))); }catch(e){}
+const LGRULES='https://ltgov.hawaii.gov/the-office/administrative-rules/';
+function harPanelForSections(secnums){
+  // collect HAR chapters across given HRS section numbers, group by HAR title
+  const byTitle={};
+  for(const sn of secnums){ const chaps=har[sn]; if(!chaps) continue;
+    for(const c of chaps){ const t=c.split('-')[0]; (byTitle[t]=byTitle[t]||new Set()).add(c); } }
+  const titles=Object.keys(byTitle).sort((a,b)=>(+a)-(+b));
+  if(!titles.length) return '';
+  let rows=titles.map(t=>{
+    const dept=harDepts[t]||('Title '+t);
+    const chaps=[...byTitle[t]].sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}));
+    return `<li><strong>${esc(dept)}</strong> <span class="har-t">(HAR Title ${esc(t)})</span>: ${chaps.map(c=>'ch. '+esc(c)).join(', ')}</li>`;
+  }).join('');
+  return `\n  <section class="harrules"><h2>Implementing administrative rules</h2>
+  <p class="har-intro">Agency rules that implement this ${secnums.length>1?'chapter':'section'}, per the LRB <em>Table of Statutory Sections Implemented</em> (2024):</p>
+  <ul class="harlist">${rows}</ul>
+  <p class="harnote">Administrative rules change frequently and this reflects the 2024 table. Confirm current rules against the official <a href="${LGRULES}" target="_blank" rel="noopener">Hawaii Administrative Rules</a>.</p></section>`;
+}
 let signdates={}; try{ signdates=JSON.parse(fs.readFileSync(path.join(ROOT,'data','signdates.json'))); }catch(e){ console.log('NOTE: signdates.json not found - signed column blank'); }
 const esc=s=>(s==null?'':String(s)).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const slugOf=sn=>String(sn).replace(/:/g,'-').replace(/[^0-9A-Za-z.\-]/g,'-');
@@ -100,7 +121,7 @@ function sectionPage(info){
     <button type="button" class="copybtn" onclick="cc(this,location.href,'Link')">Copy link</button>
     ${data.u?`<a class="officlink" href="${esc(data.u)}" target="_blank" rel="noopener">⚖ Official version ↗</a>`:''}</div>
   <div class="body">${body}</div>
-  ${histHtml}
+  ${histHtml}${harPanelForSections([info.secnum])}
   <div class="navbtns">${prev}${next}</div>
   <p class="srcnote">Citation: <strong>Haw. Rev. Stat. § ${esc(info.secnum)}</strong>. Unofficial — verify against the <a href="${esc(data.u||'https://www.capitol.hawaii.gov/hrscurrent/')}" target="_blank" rel="noopener">official source</a>.</p>
 </div></main>${FOOTER}${CCJS}</body></html>`;
@@ -125,7 +146,7 @@ function chapterPage(c){
   <nav class="crumb" aria-label="Breadcrumb"><a href="../../">Home</a> › Chapter ${esc(num)}</nav>
   <h1 class="title">Chapter ${esc(num)}</h1><h2 class="subtitle">${esc(c.title)}</h2>
   <a class="officlink" href="${offChap}" target="_blank" rel="noopener">⚖ View this chapter on the official State site ↗</a>
-  ${c.note?`<div class="chapnote">${esc(c.note)}</div>`:''}${list}
+  ${c.note?`<div class="chapnote">${esc(c.note)}</div>`:''}${list}${harPanelForSections((c.secs||[]).map(x=>x[1]))}
 </main>${FOOTER}</body></html>`;
 }
 
