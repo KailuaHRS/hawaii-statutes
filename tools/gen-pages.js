@@ -88,7 +88,9 @@ function sectionPage(info){
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>§${esc(info.secnum)} ${esc(info.catchline)} — Hawaii Revised Statutes</title>
 <meta name="description" content="${esc(desc)}">
-<link rel="canonical" href="${BASE}s/${info.slug}/"><link rel="stylesheet" href="../../assets/style.css">
+<link rel="canonical" href="${BASE}s/${info.slug}/">
+<script type="application/ld+json">${JSON.stringify({"@context":"https://schema.org","@type":"Legislation",name:"§"+info.secnum+" "+info.catchline,legislationIdentifier:"Haw. Rev. Stat. § "+info.secnum,legislationType:"Statute",legislationJurisdiction:"US-HI",inLanguage:"en",url:BASE+"s/"+info.slug+"/",isBasedOn:data.u||"",isPartOf:{"@type":"Legislation",name:"Hawaii Revised Statutes, Chapter "+info.chapNum},creditText:"Unofficial reproduction of public-domain Hawaii statutory text"})}</script>
+<link rel="stylesheet" href="../../assets/style.css">
 </head><body class="docpage"><a href="#main" class="skip">Skip to content</a>${HEADER}
 <main id="main" tabindex="-1" class="docwrap"><div class="section">
   <nav class="crumb" aria-label="Breadcrumb"><a href="../../">Home</a> › <a href="../../c/${chapSlugOf(info.chapNum)}/">Ch. ${esc(info.chapNum)} — ${esc(info.chapTitle)}</a></nav>
