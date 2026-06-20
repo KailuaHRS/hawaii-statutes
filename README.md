@@ -38,6 +38,8 @@ back to the official source on every page, and no tracking of any kind.
   Governor's signing date · Title** — covering Acts **1999–2025**.
 - In-text "L 2023, c 148" citations link to the enacting bill.
 
+- **Implementing administrative rules (HAR):** each statute lists the agency rules that implement it (department + HAR chapter), from the LRB 2024 *Table of Statutory Sections Implemented*.
+
 ### Discoverability & maintenance
 - **`sitemap.xml`** (20,949 URLs) and **`robots.txt`** so search engines index individual statutes.
 - **Weekly auto-refresh** (GitHub Actions) keeps the Acts/effective-date data current and
