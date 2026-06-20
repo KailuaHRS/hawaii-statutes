@@ -7,33 +7,35 @@
 <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
+<a href="#main" class="skip">Skip to content</a>
 <header id="topbar">
-  <div class="brand" id="homeLink" title="Home">
+  <a class="brand" id="homeLink" href="#/" title="Home">
     <span class="brand-main">Hawaii Revised Statutes</span>
     <span class="brand-sub">unofficial searchable copy</span>
-  </div>
+  </a>
   <div class="searchwrap">
-    <input id="q" type="search" placeholder="Search the full text of the statutes…  (e.g. &quot;disorderly conduct&quot;, landlord, 291E)" autocomplete="off">
-    <select id="volFilter" title="Filter by volume"><option value="">All volumes</option></select>
+    <input id="q" type="search" aria-label="Search the full text of the statutes" placeholder="Search the full text of the statutes…  (e.g. &quot;disorderly conduct&quot;, landlord, 291E)" autocomplete="off">
+    <select id="volFilter" aria-label="Filter results by volume" title="Filter by volume"><option value="">All volumes</option></select>
     <label class="titlesonly"><input type="checkbox" id="titlesOnly"> Titles only</label>
   </div>
 </header>
 <div id="layout">
   <aside id="sidebar"><div id="tree" class="tree"></div></aside>
-  <main id="main"><div id="content"><div class="loading">Loading statutes…</div></div></main>
+  <main id="main" tabindex="-1"><div id="content"><div class="loading">Loading statutes…</div></div></main>
 </div>
 <footer id="legal">
   <span><strong>Unofficial reproduction — not the official statutes and not legal advice.</strong>
   May contain errors or be out of date. The official version is published by the Hawaii Legislative Reference Bureau.</span>
   <span class="legal-links">
-    <a href="https://www.capitol.hawaii.gov/hrscurrent/" target="_blank" rel="noopener">Official HRS&nbsp;↗</a>
-    <a href="https://www.capitol.hawaii.gov/privacy.aspx" target="_blank" rel="noopener">State Privacy Policy&nbsp;↗</a>
+    <a href="https://www.capitol.hawaii.gov/hrscurrent/" target="_blank" rel="noopener">Official HRS<span aria-hidden="true">&nbsp;↗</span></a>
+    <a href="https://www.capitol.hawaii.gov/privacy.aspx" target="_blank" rel="noopener">State Privacy Policy<span aria-hidden="true">&nbsp;↗</span></a>
     <a href="#/about">About &amp; Privacy</a>
     <a href="#/download">Download / use offline</a>
-    <a href="https://github.com/KailuaHRS/hawaii-statutes" target="_blank" rel="noopener">Source&nbsp;↗</a>
+    <a href="https://github.com/KailuaHRS/hawaii-statutes/issues" target="_blank" rel="noopener">Report an error<span aria-hidden="true">&nbsp;↗</span></a>
+    <a href="https://github.com/KailuaHRS/hawaii-statutes" target="_blank" rel="noopener">Source<span aria-hidden="true">&nbsp;↗</span></a>
   </span>
 </footer>
-<div id="status"></div>
+<div id="status" role="status" aria-live="polite"></div>
 <script src="assets/minisearch.min.js"></script>
 <script src="assets/app.js"></script>
 </body>

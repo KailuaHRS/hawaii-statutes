@@ -36,24 +36,24 @@ function buildTree(){
   const byVol={};
   META.volumes.forEach(v=>byVol[v.vol]={label:v.label,chaps:[]});
   META.chapters.forEach(c=>{ if(byVol[c.vol]) byVol[c.vol].chaps.push(c); });
-  let html='';
+  let html=''; let gi=0;
   META.volumes.forEach(v=>{
-    const grp=byVol[v.vol];
-    html+=`<div class="vol" data-vol="${esc(v.vol)}">${esc(v.label)}<span class="cnt">${grp.chaps.length} ch.</span></div>`;
-    html+='<div class="chaps">';
+    const grp=byVol[v.vol]; const gid='chaps-'+(gi++);
+    html+=`<button type="button" class="vol" data-vol="${esc(v.vol)}" aria-expanded="false" aria-controls="${gid}">${esc(v.label)}<span class="cnt">${grp.chaps.length} ch.</span></button>`;
+    html+=`<div class="chaps" id="${gid}" role="group" aria-label="Chapters in ${esc(v.label)}">`;
     grp.chaps.forEach(c=>{
-      html+=`<div class="chap${c.repealed?' repealed':''}" data-key="${esc(c.vol+'/'+c.chap)}"><span class="cnum">${esc(c.num)}</span><span class="ctitle">${esc(c.title)}${c.repealed?' (repealed)':''}</span></div>`;
+      const rep=c.repealed?' (repealed)':'';
+      html+=`<a class="chap${c.repealed?' repealed':''}" href="#/c/${esc(c.vol+'/'+c.chap)}" data-key="${esc(c.vol+'/'+c.chap)}"><span class="cnum">${esc(c.num)}</span><span class="ctitle">${esc(c.title)}${rep}</span></a>`;
     });
     html+='</div>';
   });
   tree.innerHTML=html;
-  tree.querySelectorAll('.vol').forEach(el=>el.addEventListener('click',()=>el.classList.toggle('open')));
-  tree.querySelectorAll('.chap').forEach(el=>el.addEventListener('click',()=>{ location.hash='#/c/'+el.dataset.key; }));
+  tree.querySelectorAll('.vol').forEach(el=>el.addEventListener('click',()=>{ const open=el.classList.toggle('open'); el.setAttribute('aria-expanded', open?'true':'false'); }));
 }
 function highlightTreeChapter(key){
-  tree.querySelectorAll('.chap.active').forEach(e=>e.classList.remove('active'));
+  tree.querySelectorAll('.chap.active').forEach(e=>{e.classList.remove('active');e.removeAttribute('aria-current');});
   const el=tree.querySelector('.chap[data-key="'+CSS.escape(key)+'"]');
-  if(el){ el.classList.add('active'); const chaps=el.parentElement; const vol=chaps.previousElementSibling; if(vol&&!vol.classList.contains('open'))vol.classList.add('open'); try{ if(el.scrollIntoView) el.scrollIntoView({block:'nearest'}); }catch(_){} }
+  if(el){ el.classList.add('active'); el.setAttribute('aria-current','page'); const chaps=el.parentElement; const vol=chaps.previousElementSibling; if(vol&&!vol.classList.contains('open')){vol.classList.add('open'); vol.setAttribute('aria-expanded','true');} try{ if(el.scrollIntoView) el.scrollIntoView({block:'nearest'}); }catch(_){} }
 }
 
 // ---------- views ----------
@@ -161,7 +161,7 @@ async function runSearch(q){
 async function renderResults(reset){
   const terms=termsOf(lastQ);
   if(reset){
-    content.innerHTML=`<div class="results-head">${lastResults.length.toLocaleString()} result${lastResults.length===1?'':'s'} for “${esc(lastQ)}”${$('#titlesOnly').checked?' (titles only)':''}</div><div id="rlist"></div><div class="more" id="moreWrap"></div>`;
+    content.innerHTML=`<div class="results-head" role="status" aria-live="polite">${lastResults.length.toLocaleString()} result${lastResults.length===1?'':'s'} for “${esc(lastQ)}”${$('#titlesOnly').checked?' (titles only)':''}</div><div id="rlist"></div><div class="more" id="moreWrap"></div>`;
   }
   const rlist=$('#rlist');
   const slice=lastResults.slice(shown,shown+PAGE);
@@ -238,6 +238,8 @@ function aboutView(){
     <p>The only network requests this site makes are for its own files on the host and for any links you choose to click — such as the official-source links to the State of Hawaii's website (capitol.hawaii.gov), where the State's own policies apply. If you run a downloaded copy from your own computer, even the site's files are local, and the only outbound requests are links you choose to click.</p>
     <h2>Verifying the text</h2>
     <p>Every chapter and section page links to its corresponding page on the official State site, so you can confirm the wording against the source of truth.</p>
+    <h2>Report an error or request a correction</h2>
+    <p>Found a mistake, or want a page corrected or taken down? Please open an issue on the project repository: <a href="https://github.com/KailuaHRS/hawaii-statutes/issues" target="_blank" rel="noopener">github.com/KailuaHRS/hawaii-statutes/issues <span aria-hidden="true">↗</span></a>.</p>
     <p class="disclaimer">Statutes copied ${STATS&&STATS.crawledAt?esc(STATS.crawledAt.slice(0,10)):''} from capitol.hawaii.gov/hrscurrent.</p>
   </div>`;
   content.parentElement.scrollTop=0;

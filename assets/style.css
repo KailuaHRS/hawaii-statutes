@@ -1,12 +1,12 @@
 :root{
   --bg:#f7f6f3; --panel:#ffffff; --ink:#1c2430; --muted:#5f6b7a; --line:#e3e1da;
-  --accent:#1c5f8c; --accent2:#0e7a5f; --hi:#fff3b0; --repealed:#9aa3ad; --sidebar:#1f2a36;
+  --accent:#1c5f8c; --accent2:#0e7a5f; --hi:#fff3b0; --repealed:#67717c; --sidebar:#1f2a36;
 }
 *{box-sizing:border-box}
 html,body{margin:0;height:100%}
 body{font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.5}
 #topbar{display:flex;align-items:center;gap:18px;background:var(--sidebar);color:#fff;padding:10px 18px;position:sticky;top:0;z-index:20;flex-wrap:wrap}
-.brand{cursor:pointer;display:flex;flex-direction:column;line-height:1.15;white-space:nowrap}
+.brand{cursor:pointer;display:flex;flex-direction:column;line-height:1.15;white-space:nowrap;text-decoration:none;color:#fff}
 .brand-main{font-weight:700;font-size:17px;letter-spacing:.2px}
 .brand-sub{font-size:11px;color:#9fb3c4;text-transform:uppercase;letter-spacing:.5px}
 .searchwrap{display:flex;align-items:center;gap:10px;flex:1;min-width:260px}
@@ -20,12 +20,12 @@ body{font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;backgr
 .loading{color:var(--muted);padding:40px 0;text-align:center}
 
 /* tree */
-.tree .vol{padding:8px 14px;font-weight:700;color:var(--accent);cursor:pointer;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:6px;font-size:13.5px}
+.tree .vol{width:100%;text-align:left;background:none;border:none;border-top:1px solid var(--line);font-family:inherit;padding:8px 14px;font-weight:700;color:var(--accent);cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:6px;font-size:13.5px}
 .tree .vol:first-child{border-top:none}
 .tree .vol .cnt{color:var(--muted);font-weight:500;font-size:11px}
 .tree .chaps{display:none}
 .tree .vol.open + .chaps{display:block}
-.tree .chap{padding:5px 14px 5px 22px;cursor:pointer;font-size:13px;color:var(--ink);border-left:3px solid transparent;display:flex;gap:7px}
+.tree .chap{padding:8px 14px 8px 22px;cursor:pointer;font-size:13px;color:var(--ink);text-decoration:none;border-left:3px solid transparent;display:flex;gap:7px}
 .tree .chap:hover{background:#f0f4f7}
 .tree .chap.active{background:#e7eff5;border-left-color:var(--accent)}
 .tree .chap .cnum{color:var(--accent2);font-weight:600;min-width:42px}
@@ -111,3 +111,11 @@ mark{background:var(--hi);color:inherit;padding:0 1px;border-radius:2px}
 .legalpage .note{font-size:12.5px;color:var(--muted);background:#f6f8fa;border-left:3px solid var(--line);padding:8px 12px;border-radius:0 6px 6px 0}
 .home-dl a{display:inline-block;background:var(--accent2);color:#fff;text-decoration:none;font-weight:600;font-size:13.5px;padding:8px 15px;border-radius:7px;margin:4px 0 14px}
 .home-dl a:hover{filter:brightness(.94)}
+
+
+/* accessibility: skip link + visible focus */
+.skip{position:absolute;left:8px;top:-52px;background:#fff;color:var(--accent);font-weight:600;padding:9px 14px;border-radius:0 0 6px 6px;z-index:60;text-decoration:none;box-shadow:0 2px 6px rgba(0,0,0,.25);transition:top .15s}
+.skip:focus{top:0}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,.tree .vol:focus-visible,.tree .chap:focus-visible,[tabindex]:focus-visible{outline:3px solid #1c5f8c;outline-offset:2px;border-radius:3px}
+#topbar a:focus-visible,#topbar input:focus-visible,#topbar select:focus-visible,#topbar .brand:focus-visible,#legal a:focus-visible{outline-color:#cfe3f5}
+#main:focus{outline:none}
