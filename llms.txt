@@ -1,0 +1,31 @@
+# Hawaii Revised Statutes (unofficial, searchable)
+
+> A free, public-domain copy of the Hawaii Revised Statutes (HRS) — 14 volumes, 1,108 chapters, 19,840 sections — with full-text search and legislative history (enacting Acts, bill numbers, effective dates, and Governor signing dates, 1999–2025). Unofficial reproduction; verify against the official source.
+
+This site is static and openly crawlable — no rate limits, no login. AI agents and researchers are welcome to read, index, cite, and reuse the content (public-domain government law).
+
+## Site structure
+- Section pages: https://kailuahrs.github.io/hawaii-statutes/s/{section}/  (e.g. /s/291E-61/)
+- Chapter pages: https://kailuahrs.github.io/hawaii-statutes/c/{chapter}/  (e.g. /c/711/)
+- Search & browse app: https://kailuahrs.github.io/hawaii-statutes/
+- Full URL list: https://kailuahrs.github.io/hawaii-statutes/sitemap.xml
+
+## Machine-readable data (JSON)
+- Section index (browse tree, catchlines, URL slugs): https://kailuahrs.github.io/hawaii-statutes/data/index-meta.json
+- Full section text, by volume: https://kailuahrs.github.io/hawaii-statutes/data/volumes/{Volume}.json
+- Acts (bill number, effective date, title; 1999–2025): https://kailuahrs.github.io/hawaii-statutes/data/acts.json
+- Governor signing dates, by bill: https://kailuahrs.github.io/hawaii-statutes/data/signdates.json
+- Updates feed (RSS): https://kailuahrs.github.io/hawaii-statutes/feed.xml
+
+## Citing
+Bluebook form: Haw. Rev. Stat. § {section}  (e.g., Haw. Rev. Stat. § 291E-61).
+
+## Important caveats
+- Unofficial reproduction; not legal advice. Official HRS: https://www.capitol.hawaii.gov/hrscurrent/
+- In any conflict, the Session Laws of Hawaii control; the HRS is "prima facie evidence of the law" (HRS §23G-15).
+- Statute text retrieved June 2026; may not reflect later amendments.
+
+## More
+- About & privacy: https://kailuahrs.github.io/hawaii-statutes/#/about
+- Sources & build notes: https://kailuahrs.github.io/hawaii-statutes/#/build
+- For researchers & AI: https://kailuahrs.github.io/hawaii-statutes/#/data
