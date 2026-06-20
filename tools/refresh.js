@@ -60,5 +60,18 @@ for(const year of YEARS){
 fs.writeFileSync(actsPath, JSON.stringify(acts));
 fs.writeFileSync(path.join(ROOT,'tools','_changes.json'), JSON.stringify({ranAt:now.toISOString(),years:YEARS,newCount:newActs.length,changedCount:changed.length,newActs:newActs.slice(0,80),changed:changed.slice(0,80)},null,1));
 console.log(`NEW acts: ${newActs.length} | CHANGED acts: ${changed.length}`);
+// append an updates-feed entry when data changed, then rebuild the RSS feed
+if(newActs.length||changed.length){
+  const up=path.join(ROOT,'data','updates.json');
+  const ups=JSON.parse(fs.readFileSync(up));
+  const today=now.toISOString().slice(0,10);
+  const parts=[];
+  if(newActs.length) parts.push(`${newActs.length} new act(s) added (`+[...new Set(newActs.map(a=>a.year))].sort().join(', ')+`)`);
+  if(changed.length) parts.push(`${changed.length} act record(s) updated`);
+  ups.push({date:today, title:`Acts data refresh — ${today}`, summary: parts.join('; ')+'. Signing dates and statute-text changes are applied during the periodic browser-assisted refresh.'});
+  fs.writeFileSync(up, JSON.stringify(ups,null,1));
+}
+execSync(`HRS_ROOT="${ROOT}" node tools/gen-feed.js`,{stdio:'inherit',cwd:ROOT,env:{...process.env,HRS_ROOT:ROOT}});
+
 // regenerate pages (only diffs will be committed)
 execSync(`HRS_ROOT="${ROOT}" node tools/gen-pages.js`,{stdio:'inherit',cwd:ROOT,env:{...process.env,HRS_ROOT:ROOT}});

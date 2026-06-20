@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel>
+  <title>Hawaii Revised Statutes (unofficial) — updates</title>
+  <link>https://kailuahrs.github.io/hawaii-statutes/</link>
+  <atom:link href="https://kailuahrs.github.io/hawaii-statutes/feed.xml" rel="self" type="application/rss+xml"/>
+  <description>Updates to the unofficial searchable Hawaii Revised Statutes: data refreshes, new acts, and legislative-history changes.</description>
+  <language>en-us</language>
+  <lastBuildDate>Sat, 20 Jun 2026 18:00:00 GMT</lastBuildDate>
+  <item>
+    <title>Legislative history &amp; signing dates added</title>
+    <link>https://kailuahrs.github.io/hawaii-statutes/</link>
+    <guid isPermaLink="false">hrs-2026-06-20-legislative-history-amp-signing-dates-ad</guid>
+    <pubDate>Sat, 20 Jun 2026 18:00:00 GMT</pubDate>
+    <description>Every statute now shows the Acts that enacted or amended it, with bill numbers, effective dates, and Governor signing dates (1999–2025), plus clickable citations.</description>
+  </item>
+  <item>
+    <title>Site launched</title>
+    <link>https://kailuahrs.github.io/hawaii-statutes/</link>
+    <guid isPermaLink="false">hrs-2026-06-19-site-launched</guid>
+    <pubDate>Fri, 19 Jun 2026 18:00:00 GMT</pubDate>
+    <description>An unofficial, searchable copy of the full Hawaii Revised Statutes — 14 volumes, 1,108 chapters, 19,840 sections — published. Statute text retrieved June 2026.</description>
+  </item>
+</channel></rss>

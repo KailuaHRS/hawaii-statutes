@@ -239,6 +239,26 @@ function downloadView(){
   content.parentElement.scrollTop=0;
 }
 
+function subscribeView(){
+  highlightTreeChapter('');
+  const feed='https://kailuahrs.github.io/hawaii-statutes/feed.xml';
+  content.innerHTML = `<div class="legalpage">
+    <div class="crumb"><a href="#/">Home</a> &rsaquo; Subscribe</div>
+    <h1>Subscribe to updates</h1>
+    <p>Get notified when the statutes or legislative&#8209;history data are refreshed. In keeping with this site&rsquo;s privacy policy, <strong>we collect nothing</strong> &mdash; you subscribe using tools you control, and no personal data ever touches this site.</p>
+    <h2>RSS / Atom feed</h2>
+    <p>Add this feed to any reader (Feedly, Inoreader, Outlook, or your browser):</p>
+    <p><a class="dlbtn" href="feed.xml">Open the RSS feed</a></p>
+    <p class="note">Feed URL: <code>${feed}</code></p>
+    <h2>Prefer email?</h2>
+    <p>Free services can deliver the RSS feed to your inbox &mdash; you sign up there with your own address, and nothing touches this site. Paste the feed URL above into one of these:</p>
+    <p><a href="https://blogtrottr.com/" target="_blank" rel="noopener">Blogtrottr <span aria-hidden="true">&#8599;</span></a> &nbsp;&middot;&nbsp; <a href="https://follow.it/" target="_blank" rel="noopener">Follow.it <span aria-hidden="true">&#8599;</span></a></p>
+    <h2>On GitHub?</h2>
+    <p>You can also <a href="https://github.com/KailuaHRS/hawaii-statutes" target="_blank" rel="noopener">watch the repository <span aria-hidden="true">&#8599;</span></a> to be notified when the data changes.</p>
+  </div>`;
+  content.parentElement.scrollTop=0;
+}
+
 function buildView(){
   highlightTreeChapter('');
   content.innerHTML = `<div class="legalpage">
@@ -304,7 +324,8 @@ function aboutView(){
 function router(){
   const h=location.hash||'#/';
   const mC=h.match(/^#\/c\/(.+)$/), mS=h.match(/^#\/s\/(\d+)$/), mQ=h.match(/^#\/search\?q=(.*)$/);
-  if(h==='#/build'){ buildView(); }
+  if(h==='#/subscribe'){ subscribeView(); }
+  else if(h==='#/build'){ buildView(); }
   else if(h==='#/download'){ downloadView(); }
   else if(h==='#/about'){ aboutView(); }
   else if(mQ){ const q=decodeURIComponent(mQ[1]); if($('#q').value!==q)$('#q').value=q; runSearch(q); }
