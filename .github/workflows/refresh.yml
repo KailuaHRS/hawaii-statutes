@@ -1,0 +1,68 @@
+name: Weekly HRS data refresh
+
+on:
+  schedule:
+    - cron: '17 15 * * 1'   # Mondays 15:17 UTC (~5am HST)
+  workflow_dispatch:          # allow manual run from the Actions tab
+
+permissions:
+  contents: write             # to commit/push updated data + pages
+  issues: write               # to open a notification issue
+
+concurrency:
+  group: hrs-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install PDF tools
+        run: sudo apt-get update && sudo apt-get install -y poppler-utils
+
+      - name: Refresh Acts data and regenerate pages
+        run: node tools/refresh.js
+
+      - name: Commit and push changes
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git config user.name  "hrs-refresh-bot"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add -A
+            git commit -m "Auto-refresh Acts/legislative-history data ($(date -u +%Y-%m-%d))"
+            git push
+          else
+            echo "No data changes."
+          fi
+
+      - name: Notify if a session/browser refresh is due
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          NEW=$(node -e "try{console.log(require('./tools/_changes.json').newCount||0)}catch(e){console.log(0)}")
+          if [ "${NEW:-0}" -gt 0 ]; then
+            node -e "
+              const c=require('./tools/_changes.json');
+              let b='The weekly refresh found **'+c.newCount+' new Act(s)** in the LRB reports and added their bill numbers, effective dates, and titles automatically.\n\n';
+              b+='These are newly enacted laws, which usually means:\n';
+              b+='- the **statute text** will be updated by the LRB (an annual change that needs a **browser-assisted re-crawl**), and\n';
+              b+='- the new acts do **not yet have Governor signing dates** (those come from Cloudflare-protected bill pages and also need a browser refresh).\n\n';
+              b+='### New acts (first 80)\n';
+              b+='| Year | Act | Bill | Effective | Title |\n|--|--|--|--|--|\n';
+              for(const a of c.newActs){ b+='| '+a.year+' | '+a.act+' | '+a.bill+' | '+a.eff+' | '+(a.title||'').replace(/\|/g,' ')+' |\n'; }
+              b+='\n**Next step:** run the browser-assisted full refresh (re-crawl statutes + signing dates). See REFRESH.md.';
+              require('fs').writeFileSync('/tmp/issue.md', b);
+            "
+            gh issue create \
+              --title "HRS refresh due: $NEW new act(s) detected" \
+              --body-file /tmp/issue.md \
+              --assignee "${{ github.repository_owner }}" || echo "issue create failed (non-fatal)"
+          else
+            echo "No new acts; nothing to notify."
+          fi
