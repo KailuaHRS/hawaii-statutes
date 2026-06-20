@@ -119,3 +119,19 @@ mark{background:var(--hi);color:inherit;padding:0 1px;border-radius:2px}
 a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,.tree .vol:focus-visible,.tree .chap:focus-visible,[tabindex]:focus-visible{outline:3px solid #1c5f8c;outline-offset:2px;border-radius:3px}
 #topbar a:focus-visible,#topbar input:focus-visible,#topbar select:focus-visible,#topbar .brand:focus-visible,#legal a:focus-visible{outline-color:#cfe3f5}
 #main:focus{outline:none}
+
+/* ===== static document pages (per-section / per-chapter) ===== */
+body.docpage{height:auto;min-height:100%}
+.docpage #main.docwrap{max-width:880px;margin:0 auto;padding:26px 30px;overflow:visible}
+.docpage #legal{position:static}
+.pagesearch{display:flex;gap:8px;flex:1;min-width:200px}
+.pagesearch input{flex:1;min-width:140px;padding:8px 11px;border-radius:7px;border:1px solid #36465a;font-size:14px;color:var(--ink)}
+.pagesearch button{padding:8px 15px;border:none;border-radius:7px;background:var(--accent);color:#fff;font-weight:600;cursor:pointer;font-size:14px}
+.pagesearch button:hover{background:#16517a}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:6px 0 18px}
+.copybtn{font-size:12.5px;padding:6px 12px;border:1px solid var(--line);background:#fff;border-radius:6px;cursor:pointer;color:var(--accent)}
+.copybtn:hover{background:#f0f4f7}
+.body .xref{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent)}
+.body .xref:hover{background:#eef4f8}
+.srcnote{margin-top:22px;padding-top:12px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted)}
+.srcnote a{color:var(--accent)}

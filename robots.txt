@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://kailuahrs.github.io/hawaii-statutes/sitemap.xml
