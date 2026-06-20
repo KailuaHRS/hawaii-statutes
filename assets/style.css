@@ -203,3 +203,7 @@ body.app #legal{position:static;flex:0 0 auto}
 .harnote{font-size:11.5px;color:var(--muted);margin-top:8px}
 .harnote a{color:var(--accent)}
 @media print{.harrules{break-inside:avoid}}
+
+/* fix: keep download button text readable inside .legalpage (override .legalpage a color) */
+.legalpage a.dlbtn{color:#fff}
+.legalpage a.dlbtn:hover{color:#fff}
