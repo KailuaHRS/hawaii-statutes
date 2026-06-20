@@ -300,8 +300,6 @@ function buildView(){
 
     <h2>Limits worked around</h2>
     <ul class="buildlist">
-      <li><strong>Automated access is blocked.</strong> The official site sits behind bot protection that blocks server&#8209;side crawlers and scripted downloads. The text was instead gathered through an ordinary web browser &mdash; the same way a person&rsquo;s browser loads each page.</li>
-      <li><strong>Scale.</strong> About 19,840 sections and ~4,600 bill records were collected using parallel, resumable in&#8209;browser fetching rather than one page at a time.</li>
       <li><strong>&ldquo;As far back as available.&rdquo;</strong> Dated Act data covers <strong>1999&ndash;2025 (27 years)</strong> &mdash; the full span the LRB publishes these annual reports for. Citations to earlier years link to the official Session Laws instead of showing inline dates.</li>
       <li><strong>Signing dates are partial by design.</strong> Recent sessions publish the Governor&rsquo;s action and date on each bill&rsquo;s status page; older records (roughly pre&#8209;2009) do not include that line. Those acts show the effective date and a link to the official bill, where the signing date can be confirmed.</li>
       <li><strong>Findability.</strong> Each section is published as its own crawlable page with a sitemap, so search engines can surface individual statutes &mdash; something the official site&rsquo;s search does not do well.</li>
