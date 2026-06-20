@@ -207,3 +207,6 @@ body.app #legal{position:static;flex:0 0 auto}
 /* fix: keep download button text readable inside .legalpage (override .legalpage a color) */
 .legalpage a.dlbtn{color:#fff}
 .legalpage a.dlbtn:hover{color:#fff}
+
+.dlterms{font-size:12px;color:var(--muted);margin:2px 0 16px;max-width:560px}
+.dlterms a{color:var(--accent)}

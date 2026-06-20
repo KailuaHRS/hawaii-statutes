@@ -222,6 +222,7 @@ function downloadView(){
     <h1>Download &amp; use offline</h1>
     <p>You can run this entire site on your own computer &mdash; useful for offline access, keeping an archive, or hosting your own copy. The download includes all ${secs} sections plus the full-text search.</p>
     <p><a class="dlbtn" href="https://github.com/KailuaHRS/hawaii-statutes/archive/refs/heads/main.zip">&#11015; Download the site (.zip)</a></p>
+    <p class="dlterms">By downloading, you accept that this is an unofficial copy provided &ldquo;as is,&rdquo; with no warranty &mdash; verify against the official <a href="https://www.capitol.hawaii.gov/hrscurrent/" target="_blank" rel="noopener">Hawaii Revised Statutes</a>.</p>
     <h2>Windows</h2>
     <p>1. Unzip the downloaded file (right&#8209;click &rarr; Extract All).<br>
        2. Open the unzipped folder and double&#8209;click <strong>Start-HRS.bat</strong>.<br>
