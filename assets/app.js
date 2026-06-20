@@ -69,7 +69,7 @@ function home(){
     </div>
     <p class="home-dl"><a href="#/download">⬇ Download a copy to use offline</a></p>
     <p class="disclaimer"><strong>Unofficial copy for research only — not the official statutes and not legal advice.</strong>
-    Generated ${STATS.crawledAt?esc(STATS.crawledAt.slice(0,10)):''} from the official source. It may contain errors or be out of date.
+    Current as of ${STATS.crawledAt?esc(STATS.crawledAt.slice(0,10)):''}. It may contain errors or be out of date.
     Always verify against the official Hawaii Revised Statutes at
     <a href="https://www.capitol.hawaii.gov/hrscurrent/" target="_blank" rel="noopener">capitol.hawaii.gov/hrscurrent</a>.</p>
   </div>`;
@@ -342,7 +342,7 @@ function aboutView(){
     <p>Every chapter and section page links to its corresponding page on the official State site, so you can confirm the wording against the source of truth.</p>
     <h2>Report an error or request a correction</h2>
     <p>Found a mistake, or want a page corrected or taken down? Please open an issue on the project repository: <a href="https://github.com/KailuaHRS/hawaii-statutes/issues" target="_blank" rel="noopener">github.com/KailuaHRS/hawaii-statutes/issues <span aria-hidden="true">↗</span></a>.</p>
-    <p class="disclaimer">Statutes copied ${STATS&&STATS.crawledAt?esc(STATS.crawledAt.slice(0,10)):''} from capitol.hawaii.gov/hrscurrent.</p>
+    <p class="disclaimer">Statutes current as of ${STATS&&STATS.crawledAt?esc(STATS.crawledAt.slice(0,10)):''}; source: capitol.hawaii.gov/hrscurrent.</p>
   </div>`;
   content.parentElement.scrollTop=0;
 }
