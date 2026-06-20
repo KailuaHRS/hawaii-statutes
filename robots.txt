@@ -1,3 +1,29 @@
+# Hawaii Revised Statutes — unofficial, public-domain copy.
+# AI crawlers, agents, and researchers are explicitly WELCOME to read, index,
+# cite, and reuse this content. It is public-domain government law.
+# Guide for agents: /llms.txt   ·   Open data: /#/data   ·   Sitemap below.
+
 User-agent: *
 Allow: /
+
+# Explicitly welcoming common AI crawlers (also covered by * above):
+User-agent: GPTBot
+Allow: /
+User-agent: OAI-SearchBot
+Allow: /
+User-agent: ChatGPT-User
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+User-agent: anthropic-ai
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+User-agent: Google-Extended
+Allow: /
+User-agent: Applebot-Extended
+Allow: /
+User-agent: CCBot
+Allow: /
+
 Sitemap: https://kailuahrs.github.io/hawaii-statutes/sitemap.xml
