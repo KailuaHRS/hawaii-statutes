@@ -6,9 +6,10 @@
 <title>Hawaii Revised Statutes — Searchable</title>
 <link rel="stylesheet" href="assets/style.css">
 </head>
-<body>
+<body class="app">
 <a href="#main" class="skip">Skip to content</a>
 <header id="topbar">
+  <button id="navToggle" class="navtoggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="sidebar">☰</button>
   <a class="brand" id="homeLink" href="#/" title="Home">
     <span class="brand-main">Hawaii Revised Statutes</span>
     <span class="brand-sub">unofficial searchable copy</span>
@@ -19,10 +20,15 @@
     <label class="titlesonly"><input type="checkbox" id="titlesOnly"> Titles only</label>
   </div>
 </header>
+<div id="currency">
+  <span>Unofficial copy retrieved from capitol.hawaii.gov in <span id="currencyDate">2026</span>. It may not reflect laws enacted since — <a href="https://www.capitol.hawaii.gov/hrscurrent/" target="_blank" rel="noopener">check the official site</a> for current law.</span>
+  <button id="currencyClose" class="cclose" type="button" aria-label="Dismiss this notice">✕</button>
+</div>
 <div id="layout">
   <aside id="sidebar"><div id="tree" class="tree"></div></aside>
   <main id="main" tabindex="-1"><div id="content"><div class="loading">Loading statutes…</div></div></main>
 </div>
+<div id="navBackdrop" aria-hidden="true"></div>
 <footer id="legal">
   <span><strong>Unofficial reproduction — not the official statutes and not legal advice.</strong>
   May contain errors or be out of date. The official version is published by the Hawaii Legislative Reference Bureau.</span>

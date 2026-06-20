@@ -87,7 +87,7 @@ function chapterView(key){
   if(c.note) html+=`<div class="chapnote">${esc(c.note)}</div>`;
   if(c.secs.length){
     html+='<ul class="seclist">';
-    c.secs.forEach(s=>{ html+=`<li><a href="#/s/${s[0]}"><span class="sn">§${esc(s[1]||'')}</span><span class="sc">${esc(s[2])}</span></a></li>`; });
+    c.secs.forEach(s=>{ html+=`<li><a href="s/${esc(s[3])}/"><span class="sn">§${esc(s[1]||'')}</span><span class="sc">${esc(s[2])}</span></a></li>`; });
     html+='</ul>';
   } else if(!c.note){ html+='<p style="color:var(--muted)">No sections (chapter repealed or reserved).</p>'; }
   content.innerHTML=html;
@@ -148,20 +148,44 @@ function snippet(text,terms){
   let snip=(start>0?'…':'')+text.slice(start,end).replace(/\s+/g,' ').trim()+(end<text.length?'…':'');
   return highlightTerms(esc(snip));
 }
+const SYN={
+  'dui':['operating under the influence'],'dwi':['operating under the influence'],'ovuii':['operating under the influence intoxicant'],
+  'drunk driving':['operating under the influence'],'dunk driving':['operating under the influence'],
+  'eviction':['landlord tenant'],'evicted':['landlord tenant'],'evict':['landlord tenant'],
+  'restraining order':['protective order'],'protective order':['protective order'],
+  'weed':['marijuana'],'cannabis':['marijuana'],'pot':['marijuana'],
+  'gun':['firearm'],'guns':['firearm'],'firearms':['firearm'],
+  'speeding':['speed limit'],'stalking':['harassment stalking']
+};
+let lastSynNote='';
+function expandQuery(q){
+  const lq=q.toLowerCase().trim(); const out=[q];
+  for(const k in SYN){
+    const re=new RegExp('(^|\\W)'+k.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'(\\W|$)');
+    if(lq===k||re.test(lq)){ SYN[k].forEach(x=>{ if(!out.some(o=>o.toLowerCase()===x.toLowerCase())) out.push(x); }); }
+  }
+  return out;
+}
 async function runSearch(q){
   lastQ=q;
   const titlesOnly=$('#titlesOnly').checked, volF=$('#volFilter').value;
   content.innerHTML='<div class="loading">Searching…</div>';
   await ensureMS();
-  let res=ms.search(q,{ fields: titlesOnly?['catchline']:['catchline','text'], prefix:true, combineWith:'AND', boost:{catchline:3} });
+  const fields = titlesOnly?['catchline']:['catchline','text'];
+  const opts={ fields, prefix:true, fuzzy:0.2, combineWith:'AND', boost:{catchline:3} };
+  const variants=expandQuery(q);
+  const merged=new Map();
+  variants.forEach((vq,vi)=>{ ms.search(vq,opts).forEach(r=>{ const sc=r.score*(vi===0?1:0.92); const cur=merged.get(r.id); if(!cur||sc>cur.score) merged.set(r.id,{id:r.id,score:sc}); }); });
+  let res=[...merged.values()].sort((a,b)=>b.score-a.score);
   if(volF) res=res.filter(r=>idMeta[r.id]&&idMeta[r.id].vol===volF);
+  lastSynNote = variants.length>1 ? variants.slice(1).join(', ') : '';
   lastResults=res; shown=0;
   renderResults(true);
 }
 async function renderResults(reset){
   const terms=termsOf(lastQ);
   if(reset){
-    content.innerHTML=`<div class="results-head" role="status" aria-live="polite">${lastResults.length.toLocaleString()} result${lastResults.length===1?'':'s'} for “${esc(lastQ)}”${$('#titlesOnly').checked?' (titles only)':''}</div><div id="rlist"></div><div class="more" id="moreWrap"></div>`;
+    content.innerHTML=`<div class="results-head" role="status" aria-live="polite">${lastResults.length.toLocaleString()} result${lastResults.length===1?'':'s'} for “${esc(lastQ)}”${$('#titlesOnly').checked?' (titles only)':''}${lastSynNote?` <span class="synnote">(also including: ${esc(lastSynNote)})</span>`:''}</div><div id="rlist"></div><div class="more" id="moreWrap"></div>`;
   }
   const rlist=$('#rlist');
   const slice=lastResults.slice(shown,shown+PAGE);
@@ -176,7 +200,7 @@ async function renderResults(reset){
     const vlabel=(META.volumes.find(v=>v.vol===m.vol)||{}).label||m.vol;
     const txt=(volData[m.vol]&&volData[m.vol][r.id])?volData[m.vol][r.id].t:'';
     html+=`<div class="result">
-      <a class="rtitle" href="#/s/${r.id}">§${esc(m.secnum||'')} — ${esc(m.catchline)}</a>
+      <a class="rtitle" href="s/${esc(m.slug)}/">§${esc(m.secnum||'')} — ${esc(m.catchline)}</a>
       <div class="rcrumb">${esc(vlabel)} · Ch. ${esc(c?c.num:m.chap)}${c?(' — '+esc(c.title)):''}</div>
       <div class="rsnip">${snippet(txt,terms)}</div></div>`;
   }
@@ -264,12 +288,26 @@ async function init(){
   }catch(e){ content.innerHTML='<p style="color:#b00">Could not load data. Make sure you are running this through a local web server (see README), not opening the file directly.</p>'; return; }
   META.chapters.forEach(c=>{
     chapByKey[c.vol+'/'+c.chap]=c;
-    c.secs.forEach(s=>{ idMeta[s[0]]={vol:c.vol,chap:c.chap,secnum:s[1],catchline:s[2]}; });
+    c.secs.forEach(s=>{ idMeta[s[0]]={vol:c.vol,chap:c.chap,secnum:s[1],catchline:s[2],slug:s[3]}; });
   });
   // volume filter options
   const vf=$('#volFilter');
   META.volumes.forEach(v=>{ const o=document.createElement('option'); o.value=v.vol; o.textContent=v.label; vf.appendChild(o); });
   buildTree();
+  ensureMS().catch(()=>{}); // preload search index so first search is instant
+  // mobile navigation
+  const navToggle=$('#navToggle'), navBackdrop=$('#navBackdrop');
+  function closeNav(){ document.body.classList.remove('nav-open'); if(navToggle)navToggle.setAttribute('aria-expanded','false'); }
+  if(navToggle) navToggle.addEventListener('click',()=>{ const o=document.body.classList.toggle('nav-open'); navToggle.setAttribute('aria-expanded',o?'true':'false'); });
+  if(navBackdrop) navBackdrop.addEventListener('click',closeNav);
+  tree.addEventListener('click',e=>{ if(e.target.closest('.chap')) closeNav(); });
+  // currency banner
+  const banner=$('#currency');
+  if(banner){
+    try{ if(localStorage.getItem('hrsBannerDismissed')) banner.style.display='none'; }catch(_){}
+    const dt=$('#currencyDate'); if(dt&&STATS&&STATS.crawledAt){ try{ dt.textContent=new Date(STATS.crawledAt).toLocaleDateString('en-US',{year:'numeric',month:'long'}); }catch(_){} }
+    const x=$('#currencyClose'); if(x) x.addEventListener('click',()=>{ banner.style.display='none'; try{ localStorage.setItem('hrsBannerDismissed','1'); }catch(_){} });
+  }
   // search box handlers
   let t=null;
   $('#q').addEventListener('input',e=>{ clearTimeout(t); const q=e.target.value.trim(); t=setTimeout(()=>{ if(q.length>=2) location.hash='#/search?q='+encodeURIComponent(q); else if(!q) location.hash='#/'; },280); });
