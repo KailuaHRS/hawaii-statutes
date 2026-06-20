@@ -259,6 +259,33 @@ function subscribeView(){
   content.parentElement.scrollTop=0;
 }
 
+function dataView(){
+  highlightTreeChapter('');
+  const B='https://kailuahrs.github.io/hawaii-statutes/';
+  content.innerHTML = `<div class="legalpage">
+    <div class="crumb"><a href="#/">Home</a> &rsaquo; For researchers &amp; AI</div>
+    <h1>For researchers &amp; AI</h1>
+    <p>This is public&#8209;domain government law, served as a static site. You are welcome to read, crawl, cite, and reuse everything &mdash; <strong>no rate limits, no login, nothing collected</strong>. AI agents are welcome; see <a href="llms.txt">llms.txt</a> and <a href="robots.txt">robots.txt</a>.</p>
+    <h2>Stable URLs</h2>
+    <p>Section &mdash; <code>${B}s/{section}/</code> (e.g. <a href="s/291E-61/">/s/291E-61/</a>)<br>
+       Chapter &mdash; <code>${B}c/{chapter}/</code> (e.g. <a href="c/711/">/c/711/</a>)<br>
+       Every URL &mdash; <a href="sitemap.xml">sitemap.xml</a></p>
+    <h2>Open data (JSON)</h2>
+    <ul class="buildlist">
+      <li><a href="data/index-meta.json">data/index-meta.json</a> &mdash; browse tree, section catchlines, URL slugs</li>
+      <li><a href="data/acts.json">data/acts.json</a> &mdash; Act &rarr; bill, effective date, title (1999&ndash;2025)</li>
+      <li><a href="data/signdates.json">data/signdates.json</a> &mdash; Governor signing dates, by bill</li>
+      <li><code>data/volumes/{Volume}.json</code> &mdash; full section text, by volume</li>
+      <li><a href="feed.xml">feed.xml</a> &mdash; RSS update feed</li>
+    </ul>
+    <h2>Citing</h2>
+    <p>Bluebook form: <strong>Haw. Rev. Stat. &sect; {section}</strong> (e.g., Haw. Rev. Stat. &sect; 291E-61). Each section page has a one&#8209;click <em>Copy citation</em> button.</p>
+    <h2>License &amp; caveats</h2>
+    <p>The statutory text is public domain (U.S. government&#8209;edicts doctrine). This is an unofficial reproduction &mdash; verify against the <a href="https://www.capitol.hawaii.gov/hrscurrent/" target="_blank" rel="noopener">official HRS</a>; the Session Laws of Hawaii control in any conflict. Retrieved June 2026.</p>
+  </div>`;
+  content.parentElement.scrollTop=0;
+}
+
 function buildView(){
   highlightTreeChapter('');
   content.innerHTML = `<div class="legalpage">
@@ -325,6 +352,7 @@ function router(){
   const h=location.hash||'#/';
   const mC=h.match(/^#\/c\/(.+)$/), mS=h.match(/^#\/s\/(\d+)$/), mQ=h.match(/^#\/search\?q=(.*)$/);
   if(h==='#/subscribe'){ subscribeView(); }
+  else if(h==='#/data'){ dataView(); }
   else if(h==='#/build'){ buildView(); }
   else if(h==='#/download'){ downloadView(); }
   else if(h==='#/about'){ aboutView(); }
