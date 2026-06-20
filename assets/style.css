@@ -173,3 +173,6 @@ body.app #legal{position:static;flex:0 0 auto}
   .body .xref{border:none}
   .seccatch{font-size:16pt}
 }
+
+.buildlist{padding-left:20px;margin:8px 0}
+.buildlist li{margin:8px 0;line-height:1.55}

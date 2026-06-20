@@ -239,6 +239,37 @@ function downloadView(){
   content.parentElement.scrollTop=0;
 }
 
+function buildView(){
+  highlightTreeChapter('');
+  content.innerHTML = `<div class="legalpage">
+    <div class="crumb"><a href="#/">Home</a> &rsaquo; Sources &amp; build notes</div>
+    <h1>Sources, methods &amp; limitations</h1>
+    <p>In the interest of transparency for anyone relying on this for research, here is where the data comes from, how the site was assembled, and the known limits and obstacles that were worked around.</p>
+
+    <h2>Where the data comes from</h2>
+    <p><strong>Statute text:</strong> the official Hawaii Revised Statutes at <a href="https://www.capitol.hawaii.gov/hrscurrent/" target="_blank" rel="noopener">capitol.hawaii.gov/hrscurrent</a>, retrieved June&nbsp;2026.<br>
+    <strong>Act numbers &amp; effective dates:</strong> the Legislative Reference Bureau&rsquo;s annual &ldquo;Bills Enacted&rdquo; reports (the yearly Acts PDFs).<br>
+    <strong>Governor signing dates:</strong> the Legislature&rsquo;s individual bill&#8209;status (measure) pages.</p>
+
+    <h2>Limits worked around</h2>
+    <ul class="buildlist">
+      <li><strong>Automated access is blocked.</strong> The official site sits behind bot protection that blocks server&#8209;side crawlers and scripted downloads. The text was instead gathered through an ordinary web browser &mdash; the same way a person&rsquo;s browser loads each page.</li>
+      <li><strong>Scale.</strong> About 19,840 sections and ~4,600 bill records were collected using parallel, resumable in&#8209;browser fetching rather than one page at a time.</li>
+      <li><strong>&ldquo;As far back as available.&rdquo;</strong> Dated Act data covers <strong>1999&ndash;2025 (27 years)</strong> &mdash; the full span the LRB publishes these annual reports for. Citations to earlier years link to the official Session Laws instead of showing inline dates.</li>
+      <li><strong>Signing dates are partial by design.</strong> Recent sessions publish the Governor&rsquo;s action and date on each bill&rsquo;s status page; older records (roughly pre&#8209;2009) do not include that line. Those acts show the effective date and a link to the official bill, where the signing date can be confirmed.</li>
+      <li><strong>Findability.</strong> Each section is published as its own crawlable page with a sitemap, so search engines can surface individual statutes &mdash; something the official site&rsquo;s search does not do well.</li>
+      <li><strong>Speed &amp; offline use.</strong> A compressed full&#8209;text search index runs entirely in your browser, and the whole site can be downloaded and run locally with no server dependency.</li>
+    </ul>
+
+    <h2>Limitations &amp; accuracy</h2>
+    <p>This is an <strong>unofficial</strong> reproduction and may contain transcription or parsing errors. A small number of section headings and Act titles required automated cleanup and may read imperfectly. Dates are believed accurate but should be confirmed against the official sources for any consequential use. Always verify against the official Hawaii Revised Statutes and Session Laws of Hawaii.</p>
+
+    <h2>Found a problem?</h2>
+    <p>Please report errors or request corrections at <a href="https://github.com/KailuaHRS/hawaii-statutes/issues" target="_blank" rel="noopener">github.com/KailuaHRS/hawaii-statutes/issues <span aria-hidden="true">&#8599;</span></a>.</p>
+  </div>`;
+  content.parentElement.scrollTop=0;
+}
+
 function aboutView(){
   highlightTreeChapter('');
   const id23g = findBySecnum('23G-15');
@@ -273,7 +304,8 @@ function aboutView(){
 function router(){
   const h=location.hash||'#/';
   const mC=h.match(/^#\/c\/(.+)$/), mS=h.match(/^#\/s\/(\d+)$/), mQ=h.match(/^#\/search\?q=(.*)$/);
-  if(h==='#/download'){ downloadView(); }
+  if(h==='#/build'){ buildView(); }
+  else if(h==='#/download'){ downloadView(); }
   else if(h==='#/about'){ aboutView(); }
   else if(mQ){ const q=decodeURIComponent(mQ[1]); if($('#q').value!==q)$('#q').value=q; runSearch(q); }
   else if(mS){ sectionView(mS[1]); }
