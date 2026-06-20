@@ -2,3 +2,9 @@ node_modules/
 package.json
 package-lock.json
 *.bat
+acts_all.json
+perSection.json
+needSigning.json
+signdates.json
+signdates_raw.gz
+_signlist.json

@@ -176,3 +176,19 @@ body.app #legal{position:static;flex:0 0 auto}
 
 .buildlist{padding-left:20px;margin:8px 0}
 .buildlist li{margin:8px 0;line-height:1.55}
+
+/* legislative history table */
+.leghistory{margin:26px 0 8px;border-top:1px solid var(--line);padding-top:16px}
+.leghistory h2{font-size:16px;color:var(--accent);margin:0 0 10px}
+.lh-scroll{overflow-x:auto}
+.lhtable{border-collapse:collapse;width:100%;font-size:13px}
+.lhtable th,.lhtable td{text-align:left;padding:6px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+.lhtable th{font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);border-bottom:2px solid var(--line);white-space:nowrap}
+.lhtable .lh-act{white-space:nowrap;font-weight:600}
+.lhtable td a{color:var(--accent);text-decoration:none}
+.lhtable td a:hover{text-decoration:underline}
+.lh-title{color:#39424d;min-width:200px}
+.lhnote{font-size:11.5px;color:var(--muted);margin-top:8px}
+.body .actref{color:var(--accent);text-decoration:none;border-bottom:1px dotted var(--accent);font-weight:600}
+.body .actref:hover{background:#eef4f8}
+@media print{.leghistory{break-inside:avoid}}
